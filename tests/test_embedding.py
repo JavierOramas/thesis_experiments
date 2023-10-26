@@ -5,5 +5,5 @@ def test_embedding():
 
     vector = model.encode({'text':"test embedding", 'source': "test"})
     
-    for i in vector['embeddings']:
+    for i in vector:
         assert len(i) == 384

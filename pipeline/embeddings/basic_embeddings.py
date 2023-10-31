@@ -14,9 +14,14 @@ class Embedding:
                 model_kwargs={"device": "cuda"},
                 encode_kwargs={"device": "cuda", "batch_size": 100})
 
-    def encode(self, batch):
-        embeddings = self.embedding_model.embed_documents(batch["text"])
-        return {"text": batch["text"], "source": batch["source"], "embeddings": embeddings}
+    def encode_many(self, sentences):
+        return self.embedding_model.encode(sentences=sentences,
+                show_progress_bar=True,
+                normalize_embeddings=True)
+    
+    def encode(self, text):
+        embeddings = self.embedding_model.encode(text)
+        return embeddings
 
     def get_llm(self):
         return self.embedding_model

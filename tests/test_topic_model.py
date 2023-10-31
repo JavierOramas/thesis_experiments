@@ -1,18 +1,17 @@
 from pipeline.topic_model.k_means_llm import TopicModel
+import unittest
 
-
-def test_k():
+class TestTopicModel(unittest.TestCase):
     
-    sentences = ["This is a sentence about sports number " + str(i) for i in range(1, 26)] + \
-                 ["This is a sentence about politics number " + str(i) for i in range(1, 26)] + \
-                 ["This is a sentence about technology number " + str(i) for i in range(1, 26)] + \
-                 ["This is a sentence about art number " + str(i) for i in range(1, 26)]
+    def setUp(self):
+        self.tm = TopicModel()
+        sentences = ["This is a sentence about sports number " + str(i) for i in range(1, 26)] + \
+                ["This is a sentence about politics number " + str(i) for i in range(1, 26)] + \
+                ["This is a sentence about technology number " + str(i) for i in range(1, 26)] + \
+                ["This is a sentence about art number " + str(i) for i in range(1, 26)]
 
-    tm = TopicModel()
-    
-    topics = tm.get_topics(sentences)
+        self.topics = self.tm.get_topics(sentences)
 
-    assert tm.get_topics == 4
-    
-    for i in topics:
-        assert i != None and i != ""
+    def test_generate_topics(self):    
+
+        self.assertEqual(len(self.topics.items()),4)

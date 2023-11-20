@@ -16,30 +16,55 @@ class ChromaHandler:
         else:
             self.client = chromadb.Client()
     
-    def create_collection(self, name=str):
+    def create_collection(self, name:str):
         collection = self.client.get_or_create_collection(name=name, embedding_function=self.embedding_model.encode) # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
         
         return collection
+    
+    def get_collection(self, name:str):
+        return self.client.get_collection(name)
+    
+    def list_collections(self):
+        return self.client.list_collections()
     
     def add(self, collection, documents, metadata, ids):
 
         embeddings = []
         for x in documents:
             embeddings.append(self.embedding_model.encode(x).tolist())
-            print(len(embeddings[-1]))
             
-        collection.add(
-            embeddings=embeddings,
-            documents=documents,
-            metadatas=metadata,
-            ids=ids,
-        )
+        if not metadata:
+            metadata = [None for i in embeddings]
+        
+        for e,d,m,i in zip(embeddings,documents, metadata,ids):
+            
+            sim = collection.query(
+                query_embeddings=e,
+                n_results=1
+            )['distances'][0]
+
+            if len(sim) > 0:
+                sim = sim[0]
+            else:
+                sim = None
+                
+            if sim == None or sim < 0.9:
+                collection.add(
+                    embeddings=[e],
+                    documents=[d],
+                    metadatas=[m],
+                    ids=[i],
+                )
 
         return 200
     
     def add_embeddings(self, collection, embeddings, documents, metadata, ids):
         
-        collection.upsert(
+        if ids is None:
+            import uuid
+            ids = [uuid.UUID() for i in embeddings]
+        
+        collection.add(
             embeddings=embeddings,
             documents=documents,
             metadatas=metadata,

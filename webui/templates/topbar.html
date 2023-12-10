@@ -1,0 +1,13 @@
+{% block breadcrumbs %}
+    {% if breadcrumbs %}
+        {% for breadcrumb in breadcrumbs %}
+            <li>
+                {% if breadcrumb.url %}
+                    <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+                {% else %}
+                    {{ breadcrumb.text }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

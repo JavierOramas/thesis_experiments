@@ -26,7 +26,7 @@ class TestDatabaseClient(unittest.TestCase):
         # Test if query method returns the correct data from the database
         result = self.db_client.add(collection=self.collection, documents=["document3"], metadata=None, ids=["3"])
         result = self.db_client.query(collection=self.collection, query=["document3"], top_k=1)
-        self.assertEqual(result['ids'][0][0], '3' )
+        self.assertEqual(result['ids'][0][0], '3')
 
     def test_query_embedding(self):
         # Test if query_embedding method returns the correct embedding

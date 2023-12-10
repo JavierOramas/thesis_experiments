@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.description }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="/">Home</a></li>
+    <li><a href="{{ url_for('view_collection', collection_id=1) }}">Collection</a></li>
+    <li>{{ document.description }}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>Document</h1>
+    <!-- ... Document details ... -->
+{% endblock %}

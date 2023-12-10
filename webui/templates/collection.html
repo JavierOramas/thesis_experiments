@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ collection.name }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="/">Home</a></li>
+    <li>{{ collection.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ collection.name }}</h1>
+    <!-- ... Document list and description summary ... -->
+{% endblock %}

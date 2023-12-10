@@ -5,11 +5,7 @@ def llama_index_get_text():
     documents = SimpleDirectoryReader(input_dir='documents', recursive=True).load_data()
     
     for i in documents:
-        doc = nlp_es(i.text)
-        text = " ".join([token.text for token in doc])
-        # print(text)
-        yield translate_es_en(text), i.hash
-        
+        print(i.__dict__.keys())
     del documents
     
 def multi_xscience_get_text():

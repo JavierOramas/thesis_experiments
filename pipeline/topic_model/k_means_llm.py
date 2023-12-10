@@ -96,7 +96,7 @@ class TopicModel:
         best_k = visualizer.elbow_value_
 
         if not best_k:
-          best_k = 6
+          best_k = (lim_sub+lim_sup)//2
         return best_k
 
     def topic_words(self, sentences, clusters, k):
@@ -114,6 +114,8 @@ class TopicModel:
             # Initialize a Counter for each topic
             topic_bow[i] = Counter()
             for j in data[data.topic == i].sentences:
+                if isinstance(j, list):
+                    j = " ".join(j)
                 # Tokenize the sentence
                 words = j.split()
                 # Remove stop words and punctuation
@@ -145,16 +147,18 @@ class TopicModel:
 
         return topic_bow
 
-    def get_topics(self, sentences):
+    def get_topics(self, sentences, df_embedding=None, optimal_k=0):
 
-        #  Embed sentences
-        df_embedding = self.generate_embeddings(sentences)
+        if df_embedding is None:
+            #  Embed sentences
+            df_embedding = self.generate_embeddings(sentences)
 
         # detect outliers
         df_embeddings_no_out, df_embeddings_with_out = self.detect_outliers(df_embedding)
 
-        # find the optimal number of topics in the corpus (Elbow)
-        optimal_k = self.detect_optimal_k(df_embeddings_with_out)
+        if optimal_k == 0:
+            # find the optimal number of topics in the corpus (Elbow)
+            optimal_k = self.detect_optimal_k(df_embeddings_with_out)
 
         print("Optimal number of topics", optimal_k)
 

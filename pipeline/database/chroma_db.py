@@ -58,18 +58,19 @@ class ChromaHandler:
 
         return 200
     
-    def add_embeddings(self, collection, embeddings, documents, metadata, ids):
+    def add_embeddings(self, collection, embeddings, documents, metadata, ids=None):
         
         if ids is None:
             import uuid
-            ids = [uuid.UUID() for i in embeddings]
-        
-        collection.add(
-            embeddings=embeddings,
-            documents=documents,
-            metadatas=metadata,
-            ids=ids
-        )
+            ids = [str(uuid.uuid1()) for _ in embeddings]
+            
+            
+            collection.add(
+                embeddings=embeddings,
+                documents=documents,
+                metadatas=metadata,
+                ids=ids
+            )
 
         return 200
     

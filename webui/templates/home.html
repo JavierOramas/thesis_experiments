@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <h1>Collections</h1>
+    <ul>
+        {% for collection in collections %}
+            <li>
+                {{ collection.name }}
+                <a href="{{ url_for('view_collection', collection_id=collection.id) }}">Open</a>
+                <a href="#">Edit</a>
+                <a href="#">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Flask Website{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="topnav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            {% block breadcrumbs %}{% endblock %}
+        </ul>
+        <div class="utilities">
+            <a href="{{ url_for('add_collection') }}" class="add-button">Add Collection</a>
+            <a href="{{ url_for('add_document') }}" class="add-button">Add Document</a>
+        </div>
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

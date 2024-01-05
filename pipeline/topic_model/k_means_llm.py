@@ -111,7 +111,7 @@ class TopicModel:
         stop_words = set(stopwords.words('english'))
     
         tfidf = TfidfVectorizer(stop_words=stop_words, max_df=0.8, min_df=0.2)
-        tfidf_matrix = tfidf.fit_transform(sentences)
+        tfidf_matrix = tfidf.fit_transform([" ".join s for s in sentences])
     
         topic_bow = {}
     

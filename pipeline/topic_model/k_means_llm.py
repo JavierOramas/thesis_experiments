@@ -58,7 +58,7 @@ class TopicModel:
 
     def generate_embeddings(self, sentences):
 
-        model = Embedding()
+        model = Embedding('BAAI/bge-large-zh-v1.5')
 
         output = model.encode_many(sentences=sentences)
         df_embedding = pd.DataFrame(output)

@@ -1,8 +1,6 @@
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from os import walk, path
-from langchain.vectorstores import Chroma
-from pipeline.embeddings import Embedding
  
 def load_pdf_data(docs_path:str="."):
 
@@ -14,7 +12,8 @@ def load_pdf_data(docs_path:str="."):
     for root,dir,files in walk(docs_path):
         for file in files:
             if file.endswith("pdf"):
-                pdf_loader = PyPDFLoader(path.join(dir,file))
+
+                pdf_loader = PyPDFLoader(path.join(root,file))
 
                 # Load the data and return it
                 data = pdf_loader.load()

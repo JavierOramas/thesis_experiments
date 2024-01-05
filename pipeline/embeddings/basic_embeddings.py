@@ -23,5 +23,5 @@ class Embedding:
         embeddings = self.embedding_model.encode(text)
         return embeddings
 
-    def get_llm(self):
+    def get_model(self):
         return self.embedding_model

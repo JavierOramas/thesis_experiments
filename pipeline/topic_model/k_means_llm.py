@@ -110,7 +110,7 @@ class TopicModel:
         nltk.download('stopwords')
         stop_words = stopwords.words('english')
     
-        tfidf = TfidfVectorizer(stop_words=stop_words, max_df=0.8, min_df=0.2)
+        tfidf = TfidfVectorizer(stop_words=stop_words, max_df=0.95, min_df=0.1)
         tfidf_matrix = tfidf.fit_transform([" ".join(s) for s in sentences])
     
         topic_bow = {}

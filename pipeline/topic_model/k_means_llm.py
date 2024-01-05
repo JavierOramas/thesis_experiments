@@ -120,7 +120,7 @@ class TopicModel:
     
             indices = [idx for idx, cluster in enumerate(clusters) if cluster == i]
             topic_tfidf = tfidf_matrix[indices]
-            feature_names = tfidf.get_feature_names()
+            feature_names = tfidf.get_feature_names_out()
     
             for j, tfidf_scores in zip(indices, topic_tfidf):
                 top_words_indices = tfidf_scores.indices[tfidf_scores.data.argsort()[::-1][:10]]

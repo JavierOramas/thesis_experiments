@@ -86,7 +86,7 @@ class TopicModel:
 
     def detect_optimal_k(self, df, lim_sub=2, lim_sup=15, visualize=False):
         km = KMeans(init="k-means++", random_state=0, n_init="auto")
-        visualizer = KElbowVisualizer(km, k=(lim_sub, lim_sup), locate_elbow=True)
+        visualizer = KElbowVisualizer(km, k=(lim_sub, max(len(df), lim_sup)), locate_elbow=True)
         visualizer.fit(df)
 
         if visualize == True:    # Fit the data to the visualizer

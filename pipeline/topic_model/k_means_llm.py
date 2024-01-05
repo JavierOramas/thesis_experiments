@@ -14,6 +14,7 @@ import seaborn as sns
 
 # sklearn
 from sklearn.cluster import KMeans
+from sklearn.feature_extraction.text import TfidfVectorizer
 # from sklearn.pipeline import Pipeline
 # from sklearn.manifold import TSNE
 # from sklearn.metrics import silhouette_score, silhouette_samples, accuracy_score, classification_report
@@ -103,51 +104,31 @@ class TopicModel:
         return best_k
 
     def topic_words(self, sentences, clusters, k):
-
-        #  we will strip stopwords for a better topic model representation
+        import nltk
+        from nltk.corpus import stopwords
+        from sklearn.feature_extraction.text import TfidfVectorizer
         nltk.download('stopwords')
         stop_words = set(stopwords.words('english'))
-
-
-        data = pd.DataFrame(columns=["sentences", "topic"], data=zip(sentences, clusters))
+    
+        tfidf = TfidfVectorizer(stop_words=stop_words, max_df=0.8, min_df=0.2)
+        tfidf_matrix = tfidf.fit_transform(sentences)
+    
         topic_bow = {}
-
-
-        for i in range(0, k):
-            # Initialize a Counter for each topic
+    
+        for i in range(k):
             topic_bow[i] = Counter()
-            for j in data[data.topic == i].sentences:
-                if isinstance(j, list):
-                    j = " ".join(j)
-                # Tokenize the sentence
-                words = j.split()
-                # Remove stop words and punctuation
-                words = [word for word in words if word not in stop_words and word.isalpha()]
-                # Add the words to the topic bag of words
-                topic_bow[i].update(words)
-
-
-            # Get the 10 most common words in the topic
-            topic_bow[i] = Counter(topic_bow[i]).most_common(20)
-
-        for idx,i in topic_bow.items():
-            text = ", ".join(j[0] for j in i if isinstance(j[0], str) )
-
-            topic = self.llm.generate(f"""
-                        You will be given some words and you should create a topic name to match those words. No number or blank string is allowed.
-                        try to be as general as possible, and make no guesses.
-
-                        text: PC, laptop, monitor, AI, internet.
-                        topic: tech.
-
-                        text: hospital, aspirin, blood, injection, doctor
-                        topic: Medicine.
-
-                        text: {text},
-                        topic: """)
-            print(">", topic)
-            topic_bow[idx] = (i, topic)
-
+    
+            indices = [idx for idx, cluster in enumerate(clusters) if cluster == i]
+            topic_tfidf = tfidf_matrix[indices]
+            feature_names = tfidf.get_feature_names()
+    
+            for j, tfidf_scores in zip(indices, topic_tfidf):
+                top_words_indices = tfidf_scores.indices[tfidf_scores.data.argsort()[::-1][:10]]
+                top_words = [feature_names[idx] for idx in top_words_indices]
+                topic_bow[i].update(top_words)
+    
+        topic_bow = {idx: list(counter.items()) for idx, counter in topic_bow.items()}
+    
         return topic_bow
 
     def get_topics(self, sentences, df_embedding=None, optimal_k=0):

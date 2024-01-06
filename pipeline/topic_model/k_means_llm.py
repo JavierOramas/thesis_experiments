@@ -107,6 +107,7 @@ class TopicModel:
         import nltk
         from nltk.corpus import stopwords
         from sklearn.feature_extraction.text import TfidfVectorizer
+        nltk.download('stopwords')
         stop_words = stopwords.words('english')
     
         tfidf = TfidfVectorizer(stop_words=stop_words)

@@ -129,7 +129,9 @@ class TopicModel:
         topic_bow = {idx: list(counter.items()) for idx, counter in topic_bow.items()}
         
         topic_names = []
+        template = "From a set of words, generate a topic name, it should be concise and short, the words are: "
         for t in topic_bow:
+            print(topic_bow[t])
             words = " ".join(topic_bow[t])
             topic_names.append(self.llm.generate(template + words))
             

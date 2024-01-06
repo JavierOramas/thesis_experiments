@@ -62,7 +62,9 @@ class ChromaHandler:
         
         for embedding,document,metadata in zip(embeddings, documents, metadatas):
             
-            max_similarity = self.query_embeddings(collection, embedding, top_k=1)["distances"][0]
+            max_similarity = self.query_embeddings(collection, embedding, top_k=1)
+            if max_similarity:
+                max_similarity = max_similarity["distances"][0]
             print("distance ",max_similarity)
             
             if not max_similarity or max_similarity[0] == 0.0:

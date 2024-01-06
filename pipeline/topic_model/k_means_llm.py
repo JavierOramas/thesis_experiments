@@ -130,15 +130,15 @@ class TopicModel:
         topic_bow = {idx: list(counter.items()) for idx, counter in topic_bow.items()}
         
         topic_names = []
-        template = "From a set of words, generate a single sentence that can be used as topic name. the words are: "
+        # template = "From a set of words, generate a single sentence that can be used as topic name. the words are: "
         for t in topic_bow:
-            words = " ".join(i[0] for i in topic_bow[t])
-            print("words ", words)
-            if words:
-                topic_names.append(self.llm.generate(template + words))
-                print("> ",topic_names[-1])
-            else:
-                topic_names.append("No topic name could be generated") 
+            # words = " ".join(i[0] for i in topic_bow[t])
+            # print("words ", words)
+            # if words:
+            #     topic_names.append(self.llm.generate(template + words))
+            #     print("> ",topic_names[-1])
+            # else:
+            topic_names.append("No topic name could be generated") 
         return topic_names,topic_bow
 
     def get_topics(self, sentences, df_embedding=None, optimal_k=0):

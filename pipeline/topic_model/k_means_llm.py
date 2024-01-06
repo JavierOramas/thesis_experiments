@@ -132,8 +132,8 @@ class TopicModel:
         topic_names = []
         template = "From a set of words, generate a topic name, it should be concise and short, the words are: "
         for t in topic_bow:
-            print(topic_bow[t])
-            words = " ".join(topic_bow[t])
+            words = " ".join(i[0] for i in topic_bow[t])
+            print(words)
             topic_names.append(self.llm.generate(template + words))
             
         return topic_names,topic_bow

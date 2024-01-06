@@ -135,7 +135,7 @@ class TopicModel:
             words = " ".join(i[0] for i in topic_bow[t])
             print(words)
             topic_names.append(self.llm.generate(template + words))
-            print("> "topic_names[-1])
+            print("> ",topic_names[-1])
         return topic_names,topic_bow
 
     def get_topics(self, sentences, df_embedding=None, optimal_k=0):

@@ -76,7 +76,8 @@ class ChromaHandler:
                 import uuid
                 ids = [str(uuid.uuid1())]
                 collection.add(embeddings=[embedding], documents=[document], metadatas=[metadata], ids=ids)
-            
+                return
+                
             if isinstance(max_similarity, list):
                 if len(max_similarity) > 0 and max_similarity[0] != 0.0:
                     max_similarity = max_similarity[0]

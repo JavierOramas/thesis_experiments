@@ -107,7 +107,6 @@ class TopicModel:
         import nltk
         from nltk.corpus import stopwords
         from sklearn.feature_extraction.text import TfidfVectorizer
-        nltk.download('stopwords')
         stop_words = stopwords.words('english')
     
         tfidf = TfidfVectorizer(stop_words=stop_words)
@@ -126,10 +125,15 @@ class TopicModel:
                 top_words_indices = tfidf_scores.indices[tfidf_scores.data.argsort()[::-1][:10]]
                 top_words = [feature_names[idx] for idx in top_words_indices]
                 topic_bow[i].update(top_words)
-    
+        
         topic_bow = {idx: list(counter.items()) for idx, counter in topic_bow.items()}
-    
-        return topic_bow
+        
+        topic_names = []
+        for t in topic_bow:
+            words = " ".join(topic_bow[t])
+            topic_names.append(self.llm.generate(template + words))
+            
+        return topic_names,topic_bow
 
     def get_topics(self, sentences, df_embedding=None, optimal_k=0):
 

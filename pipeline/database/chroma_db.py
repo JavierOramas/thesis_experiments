@@ -64,7 +64,7 @@ class ChromaHandler:
 
             max_similarity = self.query_embeddings(collection, embedding, top_k=1)["distances"][0]
             print(max_similarity)          
-            if not max_similarity:
+            if not max_similarity or max_similarity == 0.0:
                 # If the database is empty, add the new embedding directly
                 import uuid
                 ids = [str(uuid.uuid1())]

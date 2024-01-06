@@ -61,15 +61,13 @@ class ChromaHandler:
     def add_embedding_to_database(self, collection, embeddings, documents, metadatas, similarity_limit=0.9):
         
         for embedding,document,metadata in zip(embeddings, documents, metadatas):
-            if document is None:
-                continue
-            print(document)
             
             max_similarity = self.query_embeddings(collection, embedding, top_k=1)["distances"][0]
             print("distance ",max_similarity)
             
             if not max_similarity or max_similarity[0] == 0.0:
                 # If the database is empty, add the new embedding directly
+                print("inserting ", embedding)
                 import uuid
                 ids = [str(uuid.uuid1())]
                 collection.add(embeddings=[embedding], documents=[document], metadatas=[metadata], ids=ids)

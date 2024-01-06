@@ -83,10 +83,10 @@ class ChromaHandler:
                 else:
                     max_similarity = 5
                     
-            if max_similarity < similarity_limit:
+            if max_similarity > similarity_limit:
                 # If similarity exceeds the limit, skip adding the new embedding
                 # print("Similar embedding found. Skipping addition.")
-            else:
+                
                 # Add the new embedding to the database
                 import uuid
                 new_id = str(uuid.uuid1())

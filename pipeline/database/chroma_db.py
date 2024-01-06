@@ -63,13 +63,16 @@ class ChromaHandler:
         for embedding,document,metadata in zip(embeddings, documents, metadatas):
             
             max_similarity = self.query_embeddings(collection, embedding, top_k=1)
-            if max_similarity:
-                max_similarity = max_similarity["distances"][0]
-            print("distance ",max_similarity)
+            try:
+                if max_similarity:
+                    max_similarity = max_similarity["distances"][0]
+            except:
+                max_similarity = None
+            # print("distance ",max_similarity)
             
             if not max_similarity or max_similarity[0] == 0.0:
                 # If the database is empty, add the new embedding directly
-                print("inserting ", embedding)
+                # print("inserting ", embedding)
                 import uuid
                 ids = [str(uuid.uuid1())]
                 collection.add(embeddings=[embedding], documents=[document], metadatas=[metadata], ids=ids)
@@ -82,7 +85,7 @@ class ChromaHandler:
                     
             if max_similarity < similarity_limit:
                 # If similarity exceeds the limit, skip adding the new embedding
-                print("Similar embedding found. Skipping addition.")
+                # print("Similar embedding found. Skipping addition.")
             else:
                 # Add the new embedding to the database
                 import uuid

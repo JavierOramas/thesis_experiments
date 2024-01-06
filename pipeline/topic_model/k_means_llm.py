@@ -85,7 +85,7 @@ class TopicModel:
 
         return df_embedding_no_out, df_embedding_with_out
 
-    def detect_optimal_k(self, df, lim_sub=2, lim_sup=15, visualize=False):
+    def detect_optimal_k(self, df, lim_sub=2, lim_sup=7, visualize=False):
         
         lim_sup = min(len(df), lim_sup)
         
